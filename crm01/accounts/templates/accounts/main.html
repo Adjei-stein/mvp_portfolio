@@ -1,0 +1,283 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Layouts</title>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+
+    <script type="text/javascript">
+    	var user ='{{request.user}}'
+
+    	function getToken(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = cookies[i].trim();
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		var csrftoken = getToken('csrftoken')
+    </script>
+
+    	<style type="text/css">
+    		header {
+	position: fixed;
+	background: #222;
+	padding: 20px;
+	width: 100%;
+	height: 30px;
+	z-index: 2;
+	top: 0px;
+}
+
+.left h3 {
+	color: #fff;
+	margin: 0;
+	text-transform: uppercase;
+	font-size: 22px;
+	font-weight: 900;
+	float: left;
+}
+
+.left span {
+	color: #1DC4E7;
+}
+
+.LObtn {
+	padding: 5px;
+	background: #19B3D3;
+	text-decoration: none;
+	float: right;
+	margin-top: 0px;
+	margin-right: 40px;
+	border-radius: 2px;
+	font-size: 15px;
+	font-weight: 600px;
+	color: #fff;
+	transition: 0.5s;
+	transition-property: background;
+}
+
+.LObtn:hover {
+	background: #0D9DBB;
+}
+
+.sidebar {
+	background: #222;
+	margin-top: 70px;
+	padding-top: 30px;
+	position: fixed;
+	top: 0px;
+	left: 0;
+	width: 250px;
+	height: 100%;
+	transition: 0.5s;
+	transition-property: left;
+	z-index: 3;
+}
+
+
+.sidebar .p-img {
+	width: 150px;
+	height: 150px;
+	border-radius: 150px;
+	margin-bottom: 20px;
+}
+
+.sidebar h4 {
+	color: #ccc;
+	margin-top: 0;
+	margin-bottom: 20px;
+	font-size: 20px;
+}
+
+.sidebar a {
+	color: #fff;
+	display: block;
+	width: 100%;
+	line-height: 60px;
+	text-decoration: none;
+	padding-left: 40px;
+	box-sizing: border-box;
+	transition: 0.5s;
+	font-size: 20px;
+	transition-property: background;
+}
+
+.sidebar a:hover {
+	background: #d1eff4;
+	color: #222;
+}
+
+
+.container img {
+	padding-right: 10px;
+}
+
+.container #T-cart {
+display: inline-block;
+color: #fff;
+background-color: red;
+width: 25px;
+height: 30px;
+border-radius: 50%;
+text-align: center;
+font-size: 16px;
+margin-bottom: 10px;
+}
+
+.T-cart span{
+	position: fixed;
+	margin-bottom: -7px;
+	margin-left: -8px;
+	height: 20px;
+	bottom: 50%;
+}
+
+label .Sidebtn {
+	z-index: 1;
+	position: fixed;
+	cursor: pointer;
+	left: 300px;
+	font-size: 20px;
+	margin: 5px 0;
+	transition: 0.5s;
+	transition-property: background;
+}
+
+#check:checked ~ .sidebar {
+	left: -250px;
+}
+
+#check:checked ~ .sidebar a span {
+	display: none;
+}
+
+#check {
+	display: none;
+}
+
+
+    	</style>
+
+</head>
+<body>
+
+	<input type="checkbox" id="check" tabindex="1" checked>
+
+    <header>
+	<label for ="check">
+	  <img onclick="imagefun()" class="Sidebtn" id="Sidebtn" src="{% static 'images/menu3bar.png'%}" width="20px" height="20px">
+	</label>
+      <div class="left">
+        <a href="{% url 'home' %}"><h3>Shop<span>Inn</span></h3></a>
+      </div>
+      <div class="right">
+      	{% if request.user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="LObtn">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}" class="LObtn">Login</a>
+        {% endif %}
+      </div>
+    </header>
+
+
+    <div class="sidebar">
+      <center>
+      	{% if request.user.is_authenticated %}
+        <img src="{{request.user.customer.profile_pic.url}}" class="p-img" alt="">
+        {% else %}
+        <img src="{% static 'images/1.jpg'%}" class="p-img" alt="">
+        {% endif %}
+	{% csrf_token %}
+	<h4>{{request.user}}</h4>
+      </center>
+		<div class="container">
+      		<a href="{% url 'cart' %}"><img src="{% static 'images/cart1.png'%}" class="cart" width="25px" height="25px"><span>Cart</span>
+      				<p class="T-cart" id="T-cart"><span>{{cartItems}}</span></p>
+      		</a>
+      		
+ 		
+ 		{% if request.user.is_authenticated %}
+ 		<a href="{% url 'dashboard' %}"><img src="{% static 'images/dash2.png'%}" class="cart" width="30px" height="20px"><span>Dashboard</span></a>
+        <a href="{% url 'profile' %}"><img src="{% static 'images/profile.png'%}" class="cart" style="margin-bottom: -7px" width="30px" height="30px"><span>Profile</span></a>
+        {% else %}
+        <a href="{% url 'login' %}"><img src="{% static 'images/dash2.png'%}" class="cart" width="30px" height="20px"><span>Dashboard</span></a>
+        <a href="{% url 'login' %}"><img src="{% static 'images/profile.png'%}" class="cart" style="margin-bottom: -7px" width="30px" height="30px"><span>Profile</span></a>
+        {% endif %}
+        <a href="{% url 'register' %}"><img src="{% static 'images/register.png'%}" class="cart" style="margin-bottom: -10px" width="30px" height="35px"><span>Register</span></a>
+    	</div>
+    </div>
+
+	{% block content %}
+
+	{% endblock %}
+
+	<script>
+
+	  	var user = '{{request.user}}'
+
+		function getToken(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = cookies[i].trim();
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		var csrftoken = getToken('csrftoken')
+
+	  	function getCookie(name) {
+		    // Split cookie string and get all individual name=value pairs in an array
+		    var cookieArr = document.cookie.split(";");
+
+		    // Loop through the array elements
+		    for(var i = 0; i < cookieArr.length; i++) {
+		        var cookiePair = cookieArr[i].split("=");
+
+		        /* Removing whitespace at the beginning of the cookie name
+		        and compare it with the given string */
+		        if(name == cookiePair[0].trim()) {
+		            // Decode the cookie value and return
+		            return decodeURIComponent(cookiePair[1]);
+		        }
+		    }
+
+		    // Return null if not found
+		    return null;
+		}
+
+		var cart = JSON.parse(getCookie('cart'))
+
+		if (cart == undefined){
+			cart = {}
+			console.log('Cart Created!',)
+			document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+		}
+
+
+		console.log('Cart:', cart)
+	</script>
+
+<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+
+</body>
+</html>

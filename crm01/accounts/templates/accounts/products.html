@@ -1,0 +1,41 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+
+{% block content %}
+	<div class="row">
+		{% for product in products %}
+		<div class="column1">
+			<img class="thumbnail" src="{{product.imageURL}}">
+			<div class="cube range">
+				<h4><strong>{{product.name}}</strong></h4>
+				<hr>
+
+				<label data-product="{{product.id}}" data-action="add" id= "btn-1" class="btn upcart">Add To Cart</label>
+				{% if request.user.is_authenticated %}
+				
+				<input type="checkbox" id="click" tabindex="2">
+				<label for="click" id= "btn-2" class="btn">Customize</label>
+				{% endif %}
+				<h4 id="h4-1">${{product.price|floatformat:2}}</h4>
+					<div class="content">
+						<div class="header">
+							<h2 class="head2">Describe Customization</h2>
+							<label for="click">
+								<img onclick="imagefun()" class="Xbtn" id="Sidebtn" src="{% static 'images/cls3bar.png'%}" width="20px" height="20px">
+							</label>
+							<form method="POST">
+								{% csrf_token %}
+							<span class="filt" style="margin-left: 20px">{{filt}}</span>
+							<br>
+							<textarea class="cust" rows="10" cols="80" name="customization"></textarea>
+							<br>
+							<input type="submit" value="Submit" class="submit">
+							</form>
+						</div>
+					</div>
+
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+{% endblock %}

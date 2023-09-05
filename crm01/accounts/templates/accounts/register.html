@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Layouts</title>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+
+</head>
+</html>
+{% block content %}
+	<div class="login-page">
+		<div class="forming cox">
+			<div class="login">
+				<div class="login-header">
+					<h3>REGISTER</h3>
+
+					{{form.errors}}
+				</div>
+			</div>
+			<form method="POST" action="" class="login-form">
+				{% csrf_token %}
+				{{form.username}}
+
+				{{form.email}}
+
+				{{form.first_name}}
+
+				{{form.last_name}}
+
+				{{form.password1}}
+
+				{{form.password2}}
+
+				<button type="submit" name="Create User">Register</button>
+				<p class="message">Already Registered? <a href="{% url 'login' %}">Click here to Login</a></p>
+			</form>
+		</div>
+	</div>
+{% endblock %}
+

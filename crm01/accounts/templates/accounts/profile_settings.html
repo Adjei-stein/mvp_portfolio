@@ -1,0 +1,37 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+	.profile-pic {
+		max-width: 200px;
+		max-height: 200px;
+		margin: 0 auto;
+		border-radius: 200px;
+	}
+</style>
+
+<br>
+<div class="row3">
+	<div class="colrow3">
+		<div class="cardrow3">
+			<a class="bin bin-warning" href="" style="text-decoration: none"> &#8592; Back To Profile</a>
+			<hr>
+			<h3 style="text-align: center">Profile Settings</h3>
+			<hr>
+			<img class="profile-pic" src="{{request.user.customer.profile_pic.url}}">
+		</div>
+	</div>
+	<div class="colrow9">
+		<div class="cardrow3">
+			<form method="POST" action="" enctype="multipart/form-data">
+				{% csrf_token %}
+				{{form.as_p}}
+				<input class="bin bin-primary" type="submit" name="Update Information">
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

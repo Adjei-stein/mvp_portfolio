@@ -1,0 +1,103 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="row2">
+	<div class="column-dashcol">
+		<div class="column-dash-md">
+			<div class="dashcardheader">
+				<h5 class="dashcardtitle">Total Customers</h5>
+			</div>
+			<div class="dashcardbody">
+				<h3 class="dashcardtitle">{{total_customer}}</h3>
+				<img src="{% static 'images/total_customers.png'%}" class="dashrowImg">
+			</div>
+		</div>
+	</div>
+
+	<div class="column-dashcol">
+		<div class="column-dash-nd">
+			<div class="dashcardheader">
+				<h5 class="dashcardtitle">Total Customizations</h5>
+			</div>
+			<div class="dashcardbody">
+				<h3 class="dashcardtitle">{{custcount}}</h3>
+				<img src="{% static 'images/Customizations.png'%}" class="dashrowImg">
+			</div>
+		</div>
+	</div>
+
+	<div class="column-dashcol">
+		<div class="column-dash-md">
+			<div class="dashcardheader">
+				<h5 class="dashcardtitle">Total Products</h5>
+			</div>
+			<div class="dashcardbody">
+				<h3 class="dashcardtitle">{{total_prod}}</h3>
+				<img src="{% static 'images/products.png'%}" class="dashrowImg">
+			</div>
+		</div>
+	</div>
+
+	<div class="column-dashcol">
+		<div class="column-dash-md">
+			<div class="dashcardheader">
+				<h5 class="dashcardtitle">Total Orders</h5>
+			</div>
+			<div class="dashcardbody">
+				<h3 class="dashcardtitle">{{total_orders}}</h3>
+				<img src="{% static 'images/Orders.png'%}" class="dashrowImg">
+			</div>
+		</div>
+	</div>
+<!-- 	<div class="column-dash">
+		<p>5</p>
+		<h5>Customers</h5>
+		<img src="" class="rowImg">
+	</div>
+
+	<div class="column-dash">
+		<p>5</p>
+		<h5>Customers</h5>
+		<img src="" class="rowImg">
+	</div>
+
+	<div class="column-dash">
+		<p>5</p>
+		<h5>Customers</h5>
+		<img src="" class="rowImg">
+	</div> -->
+</div>
+	<br>
+	<br>
+	<br>
+
+
+	<div class="dashrow">
+		<div class="dashcol">
+			<div class="dashcard dashbody">
+				<br>
+				<form method="get" class="dashform">
+					{{myFilter.form}}
+
+					<button class="" type="submit">Search</button>
+				</form>
+				<br>
+				<table class="table table-sm">
+					<tr>
+						<th>Product</th>
+						<th>Customization</th>
+					</tr>
+
+					{% for customization in customizations %}
+					<tr>
+						<td>{{customization.product}}</td>
+						<td>{{customization.customization}}</td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock content %}
